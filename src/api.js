@@ -1,0 +1,3 @@
+const API='https://api.wanikani.com/v2'
+export async function getUser(token){const r=await fetch(API+'/user',{headers:{Authorization:`Bearer ${token}`,'Wanikani-Revision':'20170710'}});if(!r.ok)throw new Error(r.status===401?'Érvénytelen vagy visszavont API token.':`WaniKani API hiba (${r.status}).`);return r.json()}
+export async function getAllSubjects(token,path){let url=API+path;const all=[];while(url){const r=await fetch(url,{headers:{Authorization:`Bearer ${token}`,'Wanikani-Revision':'20170710'}});if(!r.ok)throw new Error(`Nem sikerült letölteni az adatokat (${r.status}).`);const json=await r.json();all.push(...json.data);url=json.pages?.next_url||null}return all}
